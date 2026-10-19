@@ -14,8 +14,8 @@ var EATT = (function() {
     var LOGS_KEY     = 'eatt_logs';
 
     // ── Supabase ──────────────────────────────────────────────────────────────
-    var SUPA_URL  = 'https://paecbytkqkhevexmfdmq.supabase.co';
-    var SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZWNieXRrcWtoZXZleG1mZG1xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNTE3NjgsImV4cCI6MjA4OTYyNzc2OH0.CRAlB_8t5MWliMLvtzmNk0R1U_AFzZCERlypOfVpYfw';
+    var SUPA_URL  = 'https://klfucfvmfollbmjneyvc.supabase.co';  // STAGING project
+    var SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsZnVjZnZtZm9sbGJtam5leXZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0MjM5MDIsImV4cCI6MjEwNzk5OTkwMn0.D3ueSnjRqsIbvt1qnBOEiuJemCVIgh1LlJT5A3ttfts';
     var supa = (typeof supabase !== 'undefined') ? supabase.createClient(SUPA_URL, SUPA_ANON) : null;
     var initPromise = null;
 
