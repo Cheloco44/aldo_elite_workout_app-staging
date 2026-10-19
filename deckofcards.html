@@ -645,7 +645,7 @@ function drawCard(){
 
     // Remember this choice so next visit starts from the same setup
     try {
-        localStorage.setItem('eatt_deck_prefs', JSON.stringify({ time: selectedTime, equip: selectedEquip }));
+        localStorage.setItem('stg_eatt_deck_prefs', JSON.stringify({ time: selectedTime, equip: selectedEquip }));
     } catch(e) {}
 }
 
@@ -711,7 +711,7 @@ function goBack(){
 // Restore last-used time/equipment so returning users don't have to re-pick
 (function restorePrefs(){
     var saved;
-    try { saved = JSON.parse(localStorage.getItem('eatt_deck_prefs') || 'null'); } catch(e) { saved = null; }
+    try { saved = JSON.parse(localStorage.getItem('stg_eatt_deck_prefs') || 'null'); } catch(e) { saved = null; }
     if (!saved) return;
     if (saved.time) {
         var timeBtn = document.querySelector('.time-btn[data-time="' + saved.time + '"]');

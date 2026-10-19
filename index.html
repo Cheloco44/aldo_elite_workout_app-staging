@@ -751,7 +751,7 @@ function loadArchives() {
     loadEl.style.display = 'none';
     listEl.innerHTML = '';
 
-    var logs = JSON.parse(localStorage.getItem('eatt_logs') || '[]');
+    var logs = JSON.parse(localStorage.getItem('stg_eatt_logs') || '[]');
 
     if (!logs.length) {
         listEl.innerHTML = '<div class="dash-empty"><div class="dash-empty-icon">🗄️</div>' +

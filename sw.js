@@ -6,7 +6,7 @@
 
 // Prefix scopes cleanup to THIS app's caches: other sites on the same origin
 // (e.g. the staging copy on cheloco44.github.io) keep their own.
-var CACHE_PREFIX = 'eatt-app-';
+var CACHE_PREFIX = 'eatt-stg-';  // STAGING
 var CACHE = CACHE_PREFIX + 'v1';
 
 var APP_SHELL = [

@@ -10,8 +10,8 @@
 
 var EATT = (function() {
 
-    var PROGRAMS_KEY = 'eatt_programs';  // array of saved program states
-    var LOGS_KEY     = 'eatt_logs';
+    var PROGRAMS_KEY = 'stg_eatt_programs';  // STAGING: separate from prod (same origin)  // array of saved program states
+    var LOGS_KEY     = 'stg_eatt_logs';      // STAGING
 
     // ── Supabase ──────────────────────────────────────────────────────────────
     var SUPA_URL  = 'https://klfucfvmfollbmjneyvc.supabase.co';  // STAGING project
