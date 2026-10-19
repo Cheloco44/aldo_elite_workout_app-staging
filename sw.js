@@ -7,7 +7,7 @@
 // Prefix scopes cleanup to THIS app's caches: other sites on the same origin
 // (e.g. the staging copy on cheloco44.github.io) keep their own.
 var CACHE_PREFIX = 'eatt-stg-';  // STAGING
-var CACHE = CACHE_PREFIX + 'v1';
+var CACHE = CACHE_PREFIX + 'v3';
 
 var APP_SHELL = [
     './',
@@ -22,17 +22,21 @@ var APP_SHELL = [
     'deckofcards.html',
     'nutrition.html',
     'eatt_save.js',
+    'eatt_1rm.js',
     'pwa.js',
     'manifest.webmanifest',
     'icons/icon-192.png',
     'icons/icon-512.png',
-    'images/gorillavsbull.png',
+    'images/gorillavsbull.webp',
     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js'
 ];
 
 self.addEventListener('install', function(event) {
     event.waitUntil(
-        caches.open(CACHE).then(function(cache) { return cache.addAll(APP_SHELL); })
+        caches.open(CACHE).then(function(cache) {
+            // bypass the HTTP cache so one install never mixes old and new files
+            return cache.addAll(APP_SHELL.map(function(u) { return new Request(u, { cache: 'reload' }); }));
+        })
             .then(function() { return self.skipWaiting(); })
     );
 });

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="eatt_save.js"></script>
+<script src="eatt_1rm.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="manifest.webmanifest">
@@ -24,7 +25,7 @@ body {
 body::before {
     content: "";
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: url('images/gorillavsbull.png') no-repeat center center;
+    background: url('images/gorillavsbull.webp') no-repeat center center;
     background-size: contain; opacity: 0.07; pointer-events: none; z-index: 0;
 }
 .header {
@@ -60,17 +61,10 @@ body::before {
 .form-row select { padding: 9px 14px; border-radius: 8px; border: none; font-size: 14px; width: 170px; text-align: center; color: #222; }
 .form-row input[type="number"]::placeholder { color: rgba(0,0,0,0.28); font-style: italic; }
 .form-row input[type="number"]:focus::placeholder { color: transparent; }
-.check-row { display: flex; align-items: center; gap: 10px; margin: 14px 0; }
-.check-row input[type="checkbox"] { width: 20px; height: 20px; }
 
-.jump-selector { margin: 18px 0 6px; }
-.jump-selector label.jump-label { display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 10px; color: #ce93d8; }
-.jump-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .jump-btn { padding: 10px 6px; border-radius: 10px; border: 2px solid rgba(160,68,255,0.2); background: rgba(160,68,255,0.06); color: #fff; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; line-height: 1.4; }
 .jump-btn:hover { border-color: rgba(206,147,216,0.55); background: rgba(206,147,216,0.12); }
 .jump-btn.jump-active { background: linear-gradient(135deg, #6a3093, #a044ff); border-color: #ce93d8; box-shadow: 0 0 14px rgba(160,68,255,0.4); }
-.jump-btn .jump-pct { font-size: 1.05rem; display: block; }
-.jump-btn .jump-tag { font-size: 0.63rem; opacity: 0.78; font-weight: 600; }
 
 /* Live progression-rate toggle, shown in the workout view */
 .jump-toggle { max-width: 700px; margin: 14px auto 0; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 0 16px; }
@@ -81,20 +75,6 @@ body::before {
 
 .btn { display: block; width: 100%; padding: 14px; margin-top: 22px; background: linear-gradient(135deg, #6a3093, #a044ff); color: #fff; border: none; border-radius: 10px; font-size: 17px; font-weight: bold; cursor: pointer; letter-spacing: 1px; transition: transform 0.2s, box-shadow 0.2s; }
 .btn:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(160,68,255,0.45); }
-
-/* INFO TOOLTIP */
-.info-icon { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 50%; background: rgba(160,68,255,0.25); border: 1px solid rgba(160,68,255,0.5); font-size: 0.65rem; font-weight: 900; color: #ce93d8; cursor: pointer; position: relative; margin-left: 8px; vertical-align: middle; user-select: none; }
-.info-tooltip { display: none; position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); width: 280px; background: #1a0a2e; border: 1px solid rgba(160,68,255,0.35); border-radius: 10px; padding: 14px 16px; font-size: 0.78rem; line-height: 1.6; color: rgba(255,255,255,0.85); font-weight: 400; letter-spacing: 0; text-transform: none; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 100; pointer-events: none; }
-.info-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: rgba(160,68,255,0.35); }
-.info-icon:hover .info-tooltip, .info-icon:focus .info-tooltip { display: block; }
-
-/* PROJECTIONS */
-.proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 14px 0; }
-.proj-card { background: rgba(160,68,255,0.08); border: 1px solid rgba(160,68,255,0.2); border-radius: 10px; padding: 10px 14px; }
-.proj-lift { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.55; margin-bottom: 2px; }
-.proj-val  { font-size: 1.1rem; font-weight: 800; color: #ce93d8; }
-.proj-val small { font-size: 0.65rem; font-weight: 400; opacity: 0.6; margin-left: 2px; }
-.proj-note { font-size: 0.68rem; opacity: 0.45; margin-top: 2px; }
 
 /* WORKOUT VIEW */
 #workoutView { display: none; position: relative; z-index: 1; }
@@ -124,6 +104,8 @@ body::before {
 .nav-actions { display: flex; gap: 8px; justify-content: center; }
 .btn-new { background: none; border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.55); padding: 8px 16px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; }
 .btn-new:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+.btn-finish { border-color: rgba(255,215,0,0.45); color: #ffd700; }
+.complete-banner { display: block; width: 100%; margin: 0 0 16px; padding: 12px 16px; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.4); border-radius: 10px; color: #ffd700; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; cursor: pointer; }
 .btn-shuffle { background: rgba(106,48,147,0.2); border: 1px solid rgba(206,147,216,0.3); color: rgba(206,147,216,0.85); padding: 8px 16px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; }
 .btn-shuffle:hover { background: rgba(106,48,147,0.35); }
 
@@ -168,11 +150,11 @@ body::before {
     .form-row label { min-width: 0; flex: 1; font-size: 0.88rem; }
     .form-row input[type="number"] { width: 90px; flex-shrink: 0; }
     .form-row select { width: 150px; flex-shrink: 0; font-size: 13px; }
-    .jump-options { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+
     .lift-set-card { flex-direction: column; align-items: flex-start; gap: 8px; }
     .nav-controls { flex-direction: column; }
     .nav-btn { width: 100%; text-align: center; }
-    .proj-grid { grid-template-columns: 1fr 1fr; }
+
 }
 
 /* BUILD POPUP */
@@ -194,7 +176,7 @@ body::before {
 <div class="header">
     <a href="index.html" class="back-link">&larr; Home</a>
     <div class="header-inner">
-        <img src="images/gorillavsbull.png" alt="Logo" class="logo">
+        <img src="images/gorillavsbull.webp" alt="Logo" class="logo">
         <div class="header-text">5/3/1 FOR STRONGMAN</div>
     </div>
 </div>
@@ -253,10 +235,12 @@ body::before {
                 <button class="btn-new" onclick="resetSetup()">↩ New Program</button>
                 <button class="btn-shuffle" id="shuffleBtn" onclick="shuffleAux()">↻ Shuffle</button>
                 <button class="btn-new" id="logBtn" onclick="logDaySM()">✓ Log This Day</button>
+                <button class="btn-new btn-finish" id="finishBtn" onclick="finishProgram()" style="display:none">🏁 Finish Program</button>
             </div>
         </div>
         <button class="nav-btn" id="btnNext" onclick="navigate(1)">Next →</button>
     </div>
+    <button type="button" class="complete-banner" id="completeBanner" onclick="showResults()" style="display:none">🏆 Program complete — view results</button>
     <div class="workout-area" id="workoutArea"></div>
 </div>
 
@@ -297,9 +281,12 @@ function getInputs() {
     };
 }
 
-function saveProgress() {
-    EATT.save({ id: PROG_ID, name: '5/3/1 Strongman', page: 'strongman531.html',
-        inputs: getInputs(), cursor: cursor, savedAt: Date.now() });
+// cur (optional) = the day to resume on; defaults to the current resume
+// position (browsing to another day doesn't move it — logging does).
+function saveProgress(cur) {
+    return EATT.save({ id: PROG_ID, name: '5/3/1 Strongman', page: 'strongman531.html',
+        inputs: getInputs(), cursor: (resumeAt = cur != null ? cur : resumeAt), savedAt: Date.now(),
+        cycleCount: cycleCount, amrapResults: amrapResults, completed: completed });
 }
 
 function loadProgress() {
@@ -314,8 +301,11 @@ function restoreFromSave(state) {
     document.getElementById('bench1rm').value    = inp.bench;
     document.getElementById('squat1rm').value    = inp.squat;
     document.getElementById('numWaves').value    = inp.numWaves;
+    amrapResults = Array.isArray(state.amrapResults) ? state.amrapResults : [];
+    cycleCount   = state.cycleCount || 1;
+    completed    = state.completed && state.completed.cycle === cycleCount && Array.isArray(state.completed.results) ? state.completed : null;
     generateProgram();
-    cursor = Math.min(state.cursor || 0, program.length - 1);
+    cursor = resumeAt = Math.min(state.cursor || 0, program.length - 1);
     resetDayBoost();
     render();
 }
@@ -326,40 +316,65 @@ function logWorkout(programName, sessionName, exerciseList) {
 
 function saveActiveProgram() { saveProgress(); }
 
-function checkCycleComplete() {
-    if (cursor < program.length - 1) return;
+// ── Program complete: estimated 1RMs + next cycle ─────────────────────────────
+// Summary options (also used to re-show saved results). Next-cycle maxes are
+// the entered 1RMs + Wendler's flat jumps per wave.
+function finishOpts() {
     var inp = getInputs();
-    var newMaxes = { OHP: inp.ohp + 5 * inp.numWaves, Deadlift: inp.deadlift + 10 * inp.numWaves,
-                     Bench: inp.bench + 5 * inp.numWaves, Squat: inp.squat + 10 * inp.numWaves };
-    showCycleModal(newMaxes, inp.numWaves);
+    var waves = inp.numWaves;
+    var newMaxes = { OHP: inp.ohp + 5 * waves, Deadlift: inp.deadlift + 10 * waves,
+                     Bench: inp.bench + 5 * waves, Squat: inp.squat + 10 * waves };
+    return {
+        program:   '5/3/1 Strongman',
+        length:    waves + (waves === 1 ? ' wave' : ' waves') + ' · ' + (waves * 4) + ' weeks',
+        note:      'Next cycle training maxes: ' + Object.keys(newMaxes).map(function(k) { return k + ' ' + newMaxes[k]; }).join(' · ') + ' lbs',
+        nextLabel: 'Start next cycle →',
+        onNext:    function() { startNextCycle(newMaxes); }
+    };
 }
 
-function showCycleModal(newMaxes, waves) {
-    var existing = document.getElementById('cycleModal');
-    if (existing) existing.remove();
-    var modal = document.createElement('div');
-    modal.id = 'cycleModal';
-    modal.style.cssText = 'position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.88);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px';
-    window._nextCycleMaxes = newMaxes;
-    modal.innerHTML = '<div style="background:linear-gradient(145deg,#1a2540,#0f1a2e);border:1px solid rgba(255,140,66,0.3);border-radius:20px;padding:38px 32px;max-width:420px;width:100%;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,0.7)">' +
-        '<div style="font-size:2.5rem;margin-bottom:12px">🏆</div>' +
-        '<div style="font-size:1.1rem;font-weight:900;letter-spacing:3px;color:#ff8c42;margin-bottom:8px">CYCLE COMPLETE</div>' +
-        '<div style="font-size:0.85rem;opacity:0.6;margin-bottom:24px">'+waves+' waves done. New training maxes:</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px">' +
-        Object.entries(newMaxes).map(function(e){ return '<div style="background:rgba(255,140,66,0.08);border:1px solid rgba(255,140,66,0.2);border-radius:10px;padding:10px"><div style="font-size:0.62rem;letter-spacing:2px;opacity:0.55;text-transform:uppercase">'+e[0]+'</div><div style="font-size:1.2rem;font-weight:900;color:#ff8c42">'+e[1]+' lbs</div></div>'; }).join('') +
-        '</div>' +
-        '<button onclick="startNextCycle(window._nextCycleMaxes)" style="width:100%;padding:14px;background:linear-gradient(135deg,#ff512f,#dd2476);border:none;border-radius:10px;color:#fff;font-size:0.9rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-bottom:10px">START NEXT CYCLE →</button>' +
-        '<button onclick="document.getElementById(\'cycleModal\').remove()" style="width:100%;padding:12px;background:none;border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:rgba(255,255,255,0.5);font-size:0.8rem;cursor:pointer">Not yet</button></div>';
-    document.body.appendChild(modal);
+function isCompleted() { return !!(completed && completed.cycle === cycleCount); }
+
+// One e1RM per main lift (shared rule in eatt_1rm.js), logged to Archives once
+// per cycle; after that it only re-shows the saved results.
+function finishProgram() {
+    if (isCompleted()) { showResults(); return; }
+    var inp = getInputs();
+    var waves = inp.numWaves;
+    var finalSets = amrapResults.filter(function(r) { return r.wave === waves; });
+    var describe = function(s) { return s.weight + ' × ' + s.reps + ' AMRAP (wave ' + s.wave + ')'; };
+    var results = split.map(function(lift) {
+        var r = E1RM.pick(lift, finalSets, amrapResults, inp[lift.toLowerCase()], describe);
+        r.lift = dayNames[lift];
+        return r;
+    });
+    completed = { cycle: cycleCount, at: Date.now(), results: results };
+    saveProgress();
+    E1RM.finish(results, finishOpts());
+    updateFinishUI();
+}
+
+function showResults() {
+    if (isCompleted()) E1RM.showSummary(completed.results, finishOpts());
+}
+
+// "Finish program" during the final wave until done; "view results" banner after.
+function updateFinishUI() {
+    var done = isCompleted();
+    var day  = program[cursor];
+    document.getElementById('finishBtn').style.display      = !done && day && day.wave === getInputs().numWaves ? '' : 'none';
+    document.getElementById('completeBanner').style.display = done ? '' : 'none';
 }
 
 function startNextCycle(newMaxes) {
-    document.getElementById('cycleModal').remove();
+    amrapResults = [];
+    completed    = null;
+    cycleCount  += 1;
     document.getElementById('ohp1rm').value      = newMaxes.OHP;
     document.getElementById('deadlift1rm').value = newMaxes.Deadlift;
     document.getElementById('bench1rm').value    = newMaxes.Bench;
     document.getElementById('squat1rm').value    = newMaxes.Squat;
-    generateProgram(); cursor = 0; resetDayBoost(); saveProgress(); render();
+    generateProgram(true); resetDayBoost(); saveProgress(0); render();
 }
 function flashBtn(btn, success) {
     var orig = btn.textContent;
@@ -523,6 +538,11 @@ var flatInc = { lower:10, upper:5 };
 var program   = [];
 var cursor    = 0;
 var baseTM    = {};
+var amrapResults = [];   // [{ lift, weight, reps, wave, week, ts }] from logged AMRAP top sets
+var builtCursor  = -1;   // day currently drawn, so a re-render keeps reps already typed
+var resumeAt     = 0;    // saved resume position (cursor after the last logged day)
+var cycleCount   = 1;
+var completed    = null; // { cycle, at, results } once this cycle's e1RMs were logged
 
 function getIncrement(isLower){
     return isLower ? flatInc.lower : flatInc.upper;
@@ -569,10 +589,16 @@ function showBuildPopup(){
 
 function dismissPopup(){
     document.getElementById('buildPopup').classList.remove('active');
-    generateProgram();
+    // A NEW program: nothing carries over from the previous one
+    amrapResults = [];
+    completed    = null;
+    cycleCount   = 1;
+    resetDayBoost();
+    generateProgram(true);
 }
 
-function generateProgram(){
+// fresh = start at day 1 (new program / next cycle) instead of the saved cursor
+function generateProgram(fresh){
     var raw = {
         OHP:      parseInt(document.getElementById("ohp1rm").value)||185,
         Deadlift: parseInt(document.getElementById("deadlift1rm").value)||500,
@@ -623,7 +649,7 @@ function generateProgram(){
         }
     }
 
-    cursor = Math.min(loadProgress(), program.length - 1 || 0);
+    cursor = resumeAt = fresh ? 0 : Math.min(loadProgress(), program.length - 1 || 0);
     document.getElementById("setupPanel").style.display  = "none";
     document.getElementById("workoutView").style.display = "block";
     render();
@@ -642,6 +668,7 @@ function render(){
 
     buildBreadcrumb(day);
     buildWorkout(day);
+    updateFinishUI();
 }
 
 function buildBreadcrumb(current){
@@ -669,6 +696,14 @@ function buildBreadcrumb(current){
 
 function buildWorkout(day){
     var area = document.getElementById("workoutArea");
+    // Keep AMRAP reps already typed when the same day re-renders (e.g. boost
+    // toggle); otherwise prefill what was logged for this day.
+    var typedReps = builtCursor === cursor ? E1RM.readReps('amrapReps') : null;
+    if (typedReps == null) {
+        var prev = amrapResults.filter(function(r){ return r.wave === day.wave && r.week === day.week && r.lift === day.lift; }).pop();
+        typedReps = prev ? prev.reps : null;
+    }
+    builtCursor = cursor;
     area.innerHTML = "";
     area.classList.remove("slide-in");
     void area.offsetWidth;
@@ -708,6 +743,7 @@ function buildWorkout(day){
             "<div class=\"set-right\">" +
                 (isTop ? "<span class=\"top-badge\">TOP SET</span>" : "") +
                 "<div class=\"set-weight\">" + boostedWeight(s.weight) + "<small>lbs</small>" + boostTag + "</div>" +
+                (isTop ? E1RM.repsInput('amrapReps', typedReps) : "") +
             "</div>";
         mainWrap.appendChild(card);
     });
@@ -774,20 +810,48 @@ function buildWorkout(day){
 function logDaySM(){
     var day = program[cursor];
     var sessionName = 'Wave ' + day.wave + ' · ' + weekNames[day.week] + ' · Day ' + day.dayNum + ' — ' + dayNames[day.lift];
-    var exList = day.sets.map(function(s){
-        var wt = s.weight;
-        if (typeof wt === 'number' && (s.type === 'main' || s.type === 'alt')) wt = round5(wt * (1 + dayBoost));
-        return { name: s.exercise || dayNames[day.lift], type: s.type, scheme: s.scheme || (s.pct ? Math.round(s.pct*100)+'% × '+s.reps : ''), weight: wt || '' };
-    });
+    // AMRAP = last main set of weeks 1–3 (deload has none)
+    var mainSets = day.sets.filter(function(s){ return s.type === 'main'; });
+    var topSet   = day.week !== 'Deload' ? mainSets[mainSets.length - 1] : null;
+    var reps     = topSet ? E1RM.readReps('amrapReps') : null;
+    var exList = day.sets.map(function(s){ return archiveSet(s, day, s === topSet, reps); });
+    if (reps) {
+        // Re-logging a day replaces its earlier AMRAP entry
+        amrapResults = amrapResults.filter(function(r){ return !(r.wave === day.wave && r.week === day.week && r.lift === day.lift); });
+        amrapResults.push({ lift: day.lift, weight: boostedWeight(topSet.weight), reps: reps, wave: day.wave, week: day.week, ts: Date.now() });
+    }
     var btn = document.getElementById('logBtn');
     var ok = logWorkout('5/3/1 Strongman', sessionName, exList);
-    saveProgress();
+    var isLast = cursor >= program.length - 1;
+    // Final day reached in order (it was the resume position) → finish
+    var autoFinish = isLast && resumeAt === cursor && !isCompleted();
+    // Save once, now, pointing at the NEXT session so the program resumes there
+    saveProgress(isLast ? cursor : cursor + 1);
     flashBtn(btn, ok);
     if (ok) {
-        if (cursor < program.length - 1) {
-            setTimeout(function() { goToDay(cursor + 1); saveProgress(); }, 1500);
-        } else { setTimeout(checkCycleComplete, 1500); }
+        if (!isLast) {
+            setTimeout(function() { goToDay(cursor + 1); }, 1500);
+        } else if (autoFinish) { setTimeout(finishProgram, 1500); }
     }
+}
+
+// Archive schema (shared by all programs): name, type, scheme, weight (lbs,
+// number, omitted if none), pct, target (prescribed reps, text), repsDone.
+function archiveSet(s, day, isAmrap, repsDone) {
+    var deload = day.week === 'Deload';
+    if (s.type === 'main') {
+        var ex = { name: dayNames[day.lift], type: isAmrap ? 'amrap' : 'main',
+                   scheme: (deload ? '3' : '1') + ' × ' + s.reps + ' @ ' + Math.round(s.pct*100) + '% TM',
+                   weight: boostedWeight(s.weight), pct: Math.round(s.pct*100), target: s.reps };
+        if (isAmrap && repsDone) ex.repsDone = repsDone;
+        return ex;
+    }
+    var out = { name: s.exercise, type: s.type === 'acc' ? 'accessory' : s.type, scheme: s.scheme };
+    if (typeof s.weight === 'number') out.weight = boostedWeight(s.weight);
+    var m = /×\s*(.+)$/.exec(s.scheme || '');
+    if (m) out.target = m[1].trim();
+    if (s.note) out.note = s.note;
+    return out;
 }
 
 function navigate(dir){
